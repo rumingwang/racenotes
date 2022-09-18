@@ -1,0 +1,123 @@
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 7; ]
+using Toybox.Application as :App;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 8; ]
+using Toybox.WatchUi as :Ui;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 10; ]
+class SimpleDataField extends App.AppBase{
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 10; ]
+    <init> {
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 10; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 12; @position = 8; ]
+    var poiview;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 14; ]
+    function initialize() as Void {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_14_26_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 15 8 ]
+        %tmp.2 = getv ? :AppBase;
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 16 8 ]
+        %tmp.7 = getv ? :POIView;
+        %tmp.4 = newc %tmp.7 ();
+        putv self :poiview %tmp.4;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 17 8 ]
+        %tmp.8 = self;
+        %tmp.9 = getv function %tmp.8 :handleSettingUpdate;
+        invoke %tmp.8 %tmp.9();
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_14_26_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 20; ]
+    function onStart(state) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_20_28_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 21 8 ]
+        %tmp.1 = false;
+        ret %tmp.1;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_20_28_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 24; ]
+    function getInitialView() {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_24_30_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 25 8 ]
+        %tmp.1 = newa 1;
+        %tmp.3 = getv ? :poiview;
+        %tmp.4 = dup %tmp.1;
+        %tmp.5 = aputv %tmp.4 0 %tmp.3;
+        ret %tmp.5;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_24_30_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 28; ]
+    function onStop(state) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_28_27_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 29 8 ]
+        %tmp.1 = false;
+        ret %tmp.1;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_28_27_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 32; ]
+    function onSettingsChanged() {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_32_33_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 33 7 ]
+        %tmp.1 = self;
+        %tmp.2 = getv function %tmp.1 :handleSettingUpdate;
+        invoke %tmp.1 %tmp.2();
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 34 8 ]
+        %tmp.3 = getm $.Toybox.WatchUi;
+        %tmp.4 = getv function %tmp.3 :requestUpdate;
+        invoke %tmp.3 %tmp.4();
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_32_33_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 45; ]
+    function handleSettingUpdate() {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_45_36_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 46 8 ]
+        try @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_beginTry @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_endTry @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_catch @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_finally;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_beginTry:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_12_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 47 12 ]
+        %tmp.2 = getv ? :poiview;
+        %tmp.3 = getv function %tmp.2 :updateSettings;
+        invoke %tmp.2 %tmp.3();
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_12_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_endTry:
+        jsr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_finally;
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_catch:
+        %tmp.4 = exception;
+        push %tmp.4;
+        %tmp.5 = dup %tmp.4;
+        %tmp.6 = getv self :Lang;
+        %tmp.7 = getv %tmp.6 :Exception;
+        %tmp.8 = isa %tmp.5 %tmp.7;
+        bf %tmp.8 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_116_10_next;
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_catch" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_116_10_next" ]
+        %e.1 = local;
+        %tmp.9 = dup %tmp.4;
+        %tmp.10 = as %tmp.9 Lang.Exception;
+        lputv %e.1 %tmp.10;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_116_46_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc" 117 12 ]
+        %tmp.12 = getv ? :System;
+        %tmp.13 = getv function %tmp.12 :println;
+        %tmp.15 = lgetv %e.1;
+        %tmp.16 = getv %tmp.15 :getErrorMessage;
+        invoke %tmp.12 %tmp.13(%tmp.16);
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_116_46_stop:
+        jsr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_finally;
+        pop;
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_116_10_next:
+        jsr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_finally;
+        throw %tmp.4;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_finally:
+        jsrret;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_46_8_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldApp_mc_45_36_stop:
+    }
+}
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldApp.mc"; @line = 7; ]
+<init> {
+}

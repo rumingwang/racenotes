@@ -1,0 +1,1296 @@
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 7; ]
+using Toybox.WatchUi as :Ui;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 8; ]
+using Toybox.System as :Sys;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 9; ]
+using Toybox.Time as :Time;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 10; ]
+using Toybox.Graphics as :Gfx;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 11; ]
+using Toybox.Application as :App;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 16; @position = 4; ]
+var colors;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 22; @position = 4; ]
+var smallfont;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 23; @position = 4; ]
+var bigfont;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 25; @position = 7; ]
+const METERS_TO_MILES = 0.000621371;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 26; @position = 7; ]
+const METERS_TO_KMS = 0.001;
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 28; ]
+class POI{
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 28; ]
+    <init> {
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 28; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 29; @position = 8; ]
+    var mile;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 30; @position = 8; ]
+    var label;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 31; @position = 8; ]
+    var bgcolor;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 32; @position = 8; ]
+    var fgcolor;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 34; ]
+    function initialize(m, l, bg, fg) as Void {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_34_38_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 35 8 ]
+        %tmp.2 = lgetv %m;
+        putv self :mile %tmp.2;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 36 8 ]
+        %tmp.4 = lgetv %l;
+        putv self :label %tmp.4;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 37 8 ]
+        %tmp.6 = lgetv %bg;
+        putv self :bgcolor %tmp.6;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 38 8 ]
+        %tmp.8 = lgetv %fg;
+        putv self :fgcolor %tmp.8;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_34_38_stop:
+    }
+}
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 42; ]
+class POIView extends Ui.DataField{
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 42; ]
+    <init> {
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 42; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 44; @position = 10; ]
+    const MAX_POI = 50;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 47; @position = 15; ]
+    protected
+    var tot_wid;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 48; @position = 15; ]
+    protected
+    var tot_height;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 59; @position = 15; ]
+    protected
+    var g_elapse_distance;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 60; @position = 15; ]
+    protected
+    var g_use_km;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 62; @position = 15; ]
+    protected
+    var g_started;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 64; @position = 15; ]
+    protected
+    var poi_arr;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 65; @position = 15; ]
+    protected
+    var turns_arr;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 67; @position = 15; ]
+    protected
+    var v_margin;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 68; @position = 15; ]
+    protected
+    var v_start;
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 70; ]
+    function resetValues() {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_70_27_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 71 8 ]
+        %tmp.1 = 0;
+        putv self :g_elapse_distance %tmp.1;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 72 8 ]
+        %tmp.2 = false;
+        putv self :g_started %tmp.2;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_70_27_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 76; ]
+    function initialize() as Void {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_76_26_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 77 8 ]
+        %tmp.2 = getv ? :DataField;
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 78 8 ]
+        %tmp.4 = self;
+        %tmp.5 = getv function %tmp.4 :resetValues;
+        invoke %tmp.4 %tmp.5();
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_76_26_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 96; ]
+    function onLayout(dc) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_96_26_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 97 9 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_96_26_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_96_26_stop" ]
+        %dimensions.1 = local;
+        %tmp.2 = lgetv %dc;
+        %tmp.3 = getv function %tmp.2 :getTextDimensions;
+        %tmp.4 = "26.2";
+        %tmp.6 = getv ? :smallfont;
+        %tmp.7 = invoke %tmp.2 %tmp.3(%tmp.4, %tmp.6);
+        lputv %dimensions.1 %tmp.7;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 100 9 ]
+        %tmp.9 = lgetv %dc;
+        %tmp.10 = getv function %tmp.9 :getWidth;
+        %tmp.11 = invoke %tmp.9 %tmp.10();
+        putv self :tot_wid %tmp.11;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 101 9 ]
+        %tmp.13 = lgetv %dc;
+        %tmp.14 = getv function %tmp.13 :getHeight;
+        %tmp.15 = invoke %tmp.13 %tmp.14();
+        putv self :tot_height %tmp.15;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 102 9 ]
+        %tmp.16 = 2;
+        putv self :v_margin %tmp.16;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 103 9 ]
+        %tmp.18 = lgetv %dimensions.1;
+        %tmp.19 = 1;
+        %tmp.20 = agetv %tmp.18 %tmp.19;
+        %tmp.22 = getv ? :v_margin;
+        %tmp.23 = add %tmp.20 %tmp.22;
+        %tmp.24 = 2;
+        %tmp.25 = add %tmp.23 %tmp.24;
+        putv self :v_start %tmp.25;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_96_26_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 135; ]
+    function compute(info) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_135_27_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 137 8 ]
+        try @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_beginTry @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_endTry @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_catch @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_finally;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_beginTry:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_12_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 138 9 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_9_if_stmt:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_13_begin:
+        %tmp.2 = lgetv %info;
+        %tmp.4 = const :elapsedDistance;
+        %tmp.5 = canhazplz %tmp.2 %tmp.4;
+        %tmp.6 = dup %tmp.5;
+        bf %tmp.6 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_42_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_42_true:
+        %tmp.8 = lgetv %info;
+        %tmp.9 = as %tmp.8 { (interface { var elapsedDistance; }) };
+        %tmp.10 = getv %tmp.9 :elapsedDistance;
+        %tmp.11 = null;
+        %tmp.12 = ne %tmp.10 %tmp.11;
+        %tmp.13 = and %tmp.5 %tmp.12;
+        push %tmp.13;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_42_end:
+        %tmp.14 = phi [%tmp.6 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_13_begin] [%tmp.13 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_42_true] [%tmp.14 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_42_end];
+        bf %tmp.14 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_9_if_false;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_9_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_70_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 139 13 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_139_13_if_stmt:
+        %tmp.16 = getv ? :g_use_km;
+        %tmp.17 = 0;
+        %tmp.18 = eq %tmp.16 %tmp.17;
+        bf %tmp.18 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_139_13_if_false;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_139_13_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_139_30_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 140 17 ]
+        %tmp.20 = lgetv %info;
+        %tmp.21 = as %tmp.20 { (interface { var elapsedDistance; }) };
+        %tmp.22 = getv %tmp.21 :elapsedDistance;
+        %tmp.24 = getv ? :METERS_TO_MILES;
+        %tmp.25 = mul %tmp.22 %tmp.24;
+        putv self :g_elapse_distance %tmp.25;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_139_30_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_139_13_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_139_13_if_false:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_142_18_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 143 17 ]
+        %tmp.27 = lgetv %info;
+        %tmp.28 = as %tmp.27 { (interface { var elapsedDistance; }) };
+        %tmp.29 = getv %tmp.28 :elapsedDistance;
+        %tmp.31 = getv ? :METERS_TO_KMS;
+        %tmp.32 = mul %tmp.29 %tmp.31;
+        putv self :g_elapse_distance %tmp.32;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_142_18_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_139_13_if_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_70_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_9_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_9_if_false:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_146_14_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 147 13 ]
+        %tmp.33 = 0;
+        putv self :g_elapse_distance %tmp.33;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_146_14_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_138_9_if_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_12_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_endTry:
+        jsr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_finally;
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_catch:
+        %tmp.34 = exception;
+        push %tmp.34;
+        %tmp.35 = dup %tmp.34;
+        %tmp.36 = getv self :Lang;
+        %tmp.37 = getv %tmp.36 :Exception;
+        %tmp.38 = isa %tmp.35 %tmp.37;
+        bf %tmp.38 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_150_7_next;
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_catch" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_150_7_next" ]
+        %e.1 = local;
+        %tmp.39 = dup %tmp.34;
+        %tmp.40 = as %tmp.39 Lang.Exception;
+        lputv %e.1 %tmp.40;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_150_43_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 151 12 ]
+        %tmp.42 = getv ? :System;
+        %tmp.43 = getv function %tmp.42 :println;
+        %tmp.45 = lgetv %e.1;
+        %tmp.46 = getv %tmp.45 :getErrorMessage;
+        invoke %tmp.42 %tmp.43(%tmp.46);
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_150_43_stop:
+        jsr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_finally;
+        pop;
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_150_7_next:
+        jsr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_finally;
+        throw %tmp.34;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_finally:
+        jsrret;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_137_8_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_135_27_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 157; ]
+    function drawTurns(dc) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_157_27_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 158 9 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_157_27_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_157_27_stop" ]
+        %barwidth.1 = local;
+        %tmp.1 = 15;
+        lputv %barwidth.1 %tmp.1;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 159 9 ]
+        for @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_test @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_incr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_init:
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_begin" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_end" ]
+        %i.2 = local;
+        %tmp.2 = 0;
+        lputv %i.2 %tmp.2;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_test:
+        %tmp.4 = lgetv %i.2;
+        %tmp.6 = getv ? :turns_arr;
+        %tmp.7 = getv function %tmp.6 :size;
+        %tmp.8 = invoke %tmp.6 %tmp.7();
+        %tmp.9 = lt %tmp.4 %tmp.8;
+        bf %tmp.9 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_begin:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_48_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 160 14 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_48_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_48_stop" ]
+        %val.3 = local;
+        %tmp.11 = getv ? :turns_arr;
+        %tmp.13 = lgetv %i.2;
+        %tmp.14 = agetv %tmp.11 %tmp.13;
+        lputv %val.3 %tmp.14;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 161 14 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_48_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_48_stop" ]
+        %pval.4 = local;
+        %tmp.16 = lgetv %val.3;
+        lputv %pval.4 %tmp.16;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 162 14 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_162_14_if_stmt:
+        %tmp.18 = lgetv %val.3;
+        %tmp.19 = 0;
+        %tmp.20 = lt %tmp.18 %tmp.19;
+        bf %tmp.20 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_162_14_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_162_14_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_162_25_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 163 18 ]
+        %tmp.22 = lgetv %val.3;
+        %tmp.23 = 1;
+        %tmp.24 = sub 0 %tmp.23;
+        %tmp.25 = mul %tmp.22 %tmp.24;
+        lputv %pval.4 %tmp.25;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_162_25_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_162_14_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_162_14_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 165 14 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_165_14_if_stmt:
+        %tmp.27 = lgetv %pval.4;
+        %tmp.29 = getv ? :g_elapse_distance;
+        %tmp.30 = gt %tmp.27 %tmp.29;
+        bf %tmp.30 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_165_14_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_165_14_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_165_42_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 166 17 ]
+        %tmp.32 = lgetv %dc;
+        %tmp.33 = getv function %tmp.32 :setColor;
+        %tmp.34 = getm $.Toybox.Graphics;
+        %tmp.35 = getv %tmp.34 :COLOR_DK_RED;
+        %tmp.36 = getm $.Toybox.Graphics;
+        %tmp.37 = getv %tmp.36 :COLOR_TRANSPARENT;
+        invoke %tmp.32 %tmp.33(%tmp.35, %tmp.37);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 167 18 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_167_18_if_stmt:
+        %tmp.39 = lgetv %val.3;
+        %tmp.40 = 0;
+        %tmp.41 = lt %tmp.39 %tmp.40;
+        bf %tmp.41 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_167_18_if_false;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_167_18_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_167_29_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 168 23 ]
+        %tmp.43 = lgetv %dc;
+        %tmp.44 = getv function %tmp.43 :fillRectangle;
+        %tmp.45 = 0;
+        %tmp.46 = 0;
+        %tmp.48 = lgetv %barwidth.1;
+        %tmp.50 = getv ? :tot_height;
+        invoke %tmp.43 %tmp.44(%tmp.45, %tmp.46, %tmp.48, %tmp.50);
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_167_29_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_167_18_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_167_18_if_false:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_170_23_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 171 23 ]
+        %tmp.52 = lgetv %dc;
+        %tmp.53 = getv function %tmp.52 :fillRectangle;
+        %tmp.55 = getv ? :tot_wid;
+        %tmp.57 = lgetv %barwidth.1;
+        %tmp.58 = sub %tmp.55 %tmp.57;
+        %tmp.59 = 0;
+        %tmp.61 = lgetv %barwidth.1;
+        %tmp.63 = getv ? :tot_height;
+        invoke %tmp.52 %tmp.53(%tmp.58, %tmp.59, %tmp.61, %tmp.63);
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_170_23_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_167_18_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 173 16 ]
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_165_42_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_165_14_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_165_14_if_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_48_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_incr:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 159 ]
+        %tmp.66 = lgetv %i.2;
+        %tmp.67 = add %tmp.66 1;
+        lputv %i.2 %tmp.67;
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_test;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_159_9_for_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_157_27_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 178; ]
+    function drawWaterStation(dc, n_cell, x_start, cell_wid) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_178_58_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 180 9 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_178_58_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_178_58_stop" ]
+        %counter.1 = local;
+        %tmp.1 = 0;
+        lputv %counter.1 %tmp.1;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 182 9 ]
+        for @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_test @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_incr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_init:
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_begin" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_end" ]
+        %i.2 = local;
+        %tmp.2 = 0;
+        lputv %i.2 %tmp.2;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_test:
+        %tmp.4 = lgetv %i.2;
+        %tmp.6 = getv ? :poi_arr;
+        %tmp.7 = getv function %tmp.6 :size;
+        %tmp.8 = invoke %tmp.6 %tmp.7();
+        %tmp.9 = lt %tmp.4 %tmp.8;
+        bf %tmp.9 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_begin:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_46_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 183 13 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_46_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_46_stop" ]
+        %poi.3 = local;
+        %tmp.11 = getv ? :poi_arr;
+        %tmp.13 = lgetv %i.2;
+        %tmp.14 = agetv %tmp.11 %tmp.13;
+        lputv %poi.3 %tmp.14;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 184 13 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_46_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_46_stop" ]
+        %pval.4 = local;
+        %tmp.16 = lgetv %poi.3;
+        %tmp.17 = getv %tmp.16 :mile;
+        lputv %pval.4 %tmp.17;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 186 13 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_186_13_if_stmt:
+        %tmp.19 = lgetv %pval.4;
+        %tmp.21 = getv ? :g_elapse_distance;
+        %tmp.22 = gt %tmp.19 %tmp.21;
+        bf %tmp.22 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_186_13_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_186_13_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_186_41_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 187 17 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_187_17_if_stmt:
+        %tmp.24 = lgetv %counter.1;
+        %tmp.25 = 0;
+        %tmp.26 = eq %tmp.24 %tmp.25;
+        bf %tmp.26 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_187_17_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_187_17_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_187_33_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 188 21 ]
+        %tmp.28 = lgetv %dc;
+        %tmp.29 = getv function %tmp.28 :setColor;
+        %tmp.30 = getm $.Toybox.Graphics;
+        %tmp.31 = getv %tmp.30 :COLOR_BLACK;
+        %tmp.32 = getm $.Toybox.Graphics;
+        %tmp.33 = getv %tmp.32 :COLOR_TRANSPARENT;
+        invoke %tmp.28 %tmp.29(%tmp.31, %tmp.33);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 189 21 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_187_33_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_187_33_stop" ]
+        %togo.5 = local;
+        %tmp.35 = lgetv %pval.4;
+        %tmp.37 = getv ? :g_elapse_distance;
+        %tmp.38 = sub %tmp.35 %tmp.37;
+        lputv %togo.5 %tmp.38;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 190 19 ]
+        %tmp.40 = lgetv %dc;
+        %tmp.41 = getv function %tmp.40 :drawText;
+        %tmp.43 = getv ? :tot_wid;
+        %tmp.44 = 5;
+        %tmp.45 = div %tmp.43 %tmp.44;
+        %tmp.47 = getv ? :v_start;
+        %tmp.48 = getm $.Toybox.Graphics;
+        %tmp.49 = getv %tmp.48 :FONT_NUMBER_MEDIUM;
+        %tmp.51 = lgetv %togo.5;
+        %tmp.52 = getv function %tmp.51 :format;
+        %tmp.53 = "%.1f";
+        %tmp.54 = invoke %tmp.51 %tmp.52(%tmp.53);
+        %tmp.55 = getm $.Toybox.Graphics;
+        %tmp.56 = getv %tmp.55 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.40 %tmp.41(%tmp.45, %tmp.47, %tmp.49, %tmp.54, %tmp.56);
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_187_33_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_187_17_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_187_17_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 192 17 ]
+        %tmp.58 = lgetv %dc;
+        %tmp.59 = getv function %tmp.58 :setColor;
+        %tmp.61 = lgetv %poi.3;
+        %tmp.62 = getv %tmp.61 :fgcolor;
+        %tmp.64 = lgetv %poi.3;
+        %tmp.65 = getv %tmp.64 :bgcolor;
+        invoke %tmp.58 %tmp.59(%tmp.62, %tmp.65);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 193 17 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_186_41_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_186_41_stop" ]
+        %x.6 = local;
+        %tmp.67 = lgetv %x_start;
+        %tmp.69 = lgetv %counter.1;
+        %tmp.71 = lgetv %cell_wid;
+        %tmp.72 = mul %tmp.69 %tmp.71;
+        %tmp.73 = add %tmp.67 %tmp.72;
+        %tmp.75 = lgetv %cell_wid;
+        %tmp.76 = 2;
+        %tmp.77 = div %tmp.75 %tmp.76;
+        %tmp.78 = add %tmp.73 %tmp.77;
+        lputv %x.6 %tmp.78;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 194 17 ]
+        %tmp.80 = lgetv %dc;
+        %tmp.81 = getv function %tmp.80 :drawText;
+        %tmp.83 = lgetv %x.6;
+        %tmp.85 = getv ? :v_start;
+        %tmp.86 = getm $.Toybox.Graphics;
+        %tmp.87 = getv %tmp.86 :FONT_NUMBER_MEDIUM;
+        %tmp.89 = lgetv %pval.4;
+        %tmp.90 = getv function %tmp.89 :format;
+        %tmp.91 = "%.1f";
+        %tmp.92 = invoke %tmp.89 %tmp.90(%tmp.91);
+        %tmp.93 = getm $.Toybox.Graphics;
+        %tmp.94 = getv %tmp.93 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.80 %tmp.81(%tmp.83, %tmp.85, %tmp.87, %tmp.92, %tmp.94);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 195 17 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_195_17_if_stmt:
+        %tmp.96 = lgetv %poi.3;
+        %tmp.97 = getv %tmp.96 :label;
+        %tmp.98 = "";
+        %tmp.99 = ne %tmp.97 %tmp.98;
+        bf %tmp.99 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_195_17_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_195_17_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_195_36_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 196 21 ]
+        %tmp.101 = lgetv %dc;
+        %tmp.102 = getv function %tmp.101 :drawText;
+        %tmp.104 = lgetv %x.6;
+        %tmp.106 = getv ? :v_margin;
+        %tmp.107 = getm $.Toybox.Graphics;
+        %tmp.108 = getv %tmp.107 :FONT_TINY;
+        %tmp.110 = lgetv %poi.3;
+        %tmp.111 = getv %tmp.110 :label;
+        %tmp.112 = getm $.Toybox.Graphics;
+        %tmp.113 = getv %tmp.112 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.101 %tmp.102(%tmp.104, %tmp.106, %tmp.108, %tmp.111, %tmp.113);
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_195_36_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_195_17_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_195_17_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 199 17 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_199_17_if_stmt:
+        %tmp.115 = lgetv %counter.1;
+        %tmp.117 = lgetv %n_cell;
+        %tmp.118 = 2;
+        %tmp.119 = sub %tmp.117 %tmp.118;
+        %tmp.120 = gt %tmp.115 %tmp.119;
+        bf %tmp.120 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_199_17_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_199_17_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_199_39_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 200 21 ]
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_199_39_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_199_17_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_199_17_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 202 17 ]
+        %tmp.123 = lgetv %counter.1;
+        %tmp.124 = add %tmp.123 1;
+        lputv %counter.1 %tmp.124;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_186_41_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_186_13_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_186_13_if_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_46_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_incr:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 182 ]
+        %tmp.127 = lgetv %i.2;
+        %tmp.128 = add %tmp.127 1;
+        lputv %i.2 %tmp.128;
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_test;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_182_9_for_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_178_58_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 223; ]
+    function onUpdate(dc) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_223_26_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 225 8 ]
+        try @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_beginTry @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_endTry @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_catch @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_finally;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_beginTry:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_12_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 226 13 ]
+        %tmp.2 = lgetv %dc;
+        %tmp.3 = getv function %tmp.2 :setColor;
+        %tmp.4 = getm $.Toybox.Graphics;
+        %tmp.5 = getv %tmp.4 :COLOR_BLACK;
+        %tmp.6 = getm $.Toybox.Graphics;
+        %tmp.7 = getv %tmp.6 :COLOR_WHITE;
+        invoke %tmp.2 %tmp.3(%tmp.5, %tmp.7);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 227 9 ]
+        %tmp.9 = lgetv %dc;
+        %tmp.10 = getv function %tmp.9 :clear;
+        invoke %tmp.9 %tmp.10();
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 233 9 ]
+        %tmp.12 = lgetv %dc;
+        %tmp.13 = getv function %tmp.12 :setColor;
+        %tmp.14 = getm $.Toybox.Graphics;
+        %tmp.15 = getv %tmp.14 :COLOR_BLUE;
+        %tmp.16 = getm $.Toybox.Graphics;
+        %tmp.17 = getv %tmp.16 :COLOR_TRANSPARENT;
+        invoke %tmp.12 %tmp.13(%tmp.15, %tmp.17);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 234 9 ]
+        %tmp.19 = lgetv %dc;
+        %tmp.20 = getv function %tmp.19 :drawLine;
+        %tmp.22 = getv ? :tot_wid;
+        %tmp.23 = 3;
+        %tmp.24 = div %tmp.22 %tmp.23;
+        %tmp.25 = 0;
+        %tmp.27 = getv ? :tot_wid;
+        %tmp.28 = 3;
+        %tmp.29 = div %tmp.27 %tmp.28;
+        %tmp.31 = getv ? :tot_height;
+        invoke %tmp.19 %tmp.20(%tmp.24, %tmp.25, %tmp.29, %tmp.31);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 265 9 ]
+        %tmp.32 = self;
+        %tmp.33 = getv function %tmp.32 :drawTurns;
+        %tmp.35 = lgetv %dc;
+        invoke %tmp.32 %tmp.33(%tmp.35);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 266 9 ]
+        %tmp.36 = self;
+        %tmp.37 = getv function %tmp.36 :drawWaterStation;
+        %tmp.39 = lgetv %dc;
+        %tmp.40 = 2;
+        %tmp.42 = getv ? :tot_wid;
+        %tmp.43 = 3;
+        %tmp.44 = div %tmp.42 %tmp.43;
+        %tmp.46 = getv ? :tot_wid;
+        %tmp.47 = 3;
+        %tmp.48 = div %tmp.46 %tmp.47;
+        invoke %tmp.36 %tmp.37(%tmp.39, %tmp.40, %tmp.44, %tmp.48);
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_12_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_endTry:
+        jsr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_finally;
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_catch:
+        %tmp.49 = exception;
+        push %tmp.49;
+        %tmp.50 = dup %tmp.49;
+        %tmp.51 = getv self :Lang;
+        %tmp.52 = getv %tmp.51 :Exception;
+        %tmp.53 = isa %tmp.50 %tmp.52;
+        bf %tmp.53 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_267_10_next;
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_catch" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_267_10_next" ]
+        %e.1 = local;
+        %tmp.54 = dup %tmp.49;
+        %tmp.55 = as %tmp.54 Lang.Exception;
+        lputv %e.1 %tmp.55;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_267_46_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 268 12 ]
+        %tmp.57 = getv ? :System;
+        %tmp.58 = getv function %tmp.57 :println;
+        %tmp.60 = lgetv %e.1;
+        %tmp.61 = getv %tmp.60 :getErrorMessage;
+        invoke %tmp.57 %tmp.58(%tmp.61);
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_267_46_stop:
+        jsr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_finally;
+        pop;
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_267_10_next:
+        jsr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_finally;
+        throw %tmp.49;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_finally:
+        jsrret;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_225_8_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_223_26_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 272; ]
+    function onTimerStart() {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_272_28_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 273 9 ]
+        %tmp.1 = self;
+        %tmp.2 = getv function %tmp.1 :resetValues;
+        invoke %tmp.1 %tmp.2();
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 274 9 ]
+        %tmp.3 = true;
+        putv self :g_started %tmp.3;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_272_28_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 277; ]
+    function onTimerStop() {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_277_27_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 278 9 ]
+        %tmp.1 = false;
+        putv self :g_started %tmp.1;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_277_27_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 281; ]
+    function onTimerLap() {
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 285; ]
+    function addPOI(arr, idx, data, theme) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 286 8 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_stop" ]
+        %mile.1 = local;
+        %tmp.2 = lgetv %data;
+        lputv %mile.1 %tmp.2;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 287 8 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_stop" ]
+        %label.2 = local;
+        %tmp.3 = "";
+        lputv %label.2 %tmp.3;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 288 8 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_stop" ]
+        %loc.3 = local;
+        %tmp.5 = lgetv %data;
+        %tmp.6 = getv function %tmp.5 :find;
+        %tmp.7 = ":";
+        %tmp.8 = invoke %tmp.5 %tmp.6(%tmp.7);
+        lputv %loc.3 %tmp.8;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 289 8 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_289_8_if_stmt:
+        %tmp.10 = lgetv %loc.3;
+        %tmp.11 = null;
+        %tmp.12 = ne %tmp.10 %tmp.11;
+        bf %tmp.12 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_289_8_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_289_8_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_289_24_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 290 12 ]
+        %tmp.14 = lgetv %data;
+        %tmp.15 = getv function %tmp.14 :substring;
+        %tmp.16 = 0;
+        %tmp.18 = lgetv %loc.3;
+        %tmp.19 = as %tmp.18 { (!Null) };
+        %tmp.20 = invoke %tmp.14 %tmp.15(%tmp.16, %tmp.19);
+        lputv %mile.1 %tmp.20;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 291 12 ]
+        %tmp.22 = lgetv %data;
+        %tmp.23 = getv function %tmp.22 :substring;
+        %tmp.25 = lgetv %loc.3;
+        %tmp.26 = as %tmp.25 { (!Null) };
+        %tmp.27 = 1;
+        %tmp.28 = add %tmp.26 %tmp.27;
+        %tmp.30 = lgetv %data;
+        %tmp.31 = getv function %tmp.30 :length;
+        %tmp.32 = invoke %tmp.30 %tmp.31();
+        %tmp.33 = invoke %tmp.22 %tmp.23(%tmp.28, %tmp.32);
+        lputv %label.2 %tmp.33;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_289_24_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_289_8_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_289_8_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 295 8 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_stop" ]
+        %poi.4 = local;
+        %tmp.37 = getv ? :POI;
+        %tmp.39 = lgetv %mile.1;
+        %tmp.40 = getv function %tmp.39 :toFloat;
+        %tmp.41 = invoke %tmp.39 %tmp.40();
+        %tmp.43 = lgetv %label.2;
+        %tmp.45 = getv ? :colors;
+        %tmp.46 = 2;
+        %tmp.48 = lgetv %theme;
+        %tmp.49 = mul %tmp.46 %tmp.48;
+        %tmp.50 = agetv %tmp.45 %tmp.49;
+        %tmp.52 = getv ? :colors;
+        %tmp.53 = 2;
+        %tmp.55 = lgetv %theme;
+        %tmp.56 = mul %tmp.53 %tmp.55;
+        %tmp.57 = 1;
+        %tmp.58 = add %tmp.56 %tmp.57;
+        %tmp.59 = agetv %tmp.52 %tmp.58;
+        %tmp.34 = newc %tmp.37 (%tmp.41, %tmp.43, %tmp.50, %tmp.59);
+        lputv %poi.4 %tmp.34;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 296 5 ]
+        %tmp.60 = lgetv %arr;
+        %tmp.62 = lgetv %poi.4;
+        %tmp.64 = lgetv %idx;
+        aputv %tmp.60 %tmp.64 %tmp.62;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_285_43_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 299; ]
+    function stringToArray(string, splitter, arr, first, max, theme) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_299_70_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 300 5 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_300_5_if_stmt:
+        %tmp.2 = lgetv %string;
+        %tmp.3 = getv function %tmp.2 :length;
+        %tmp.4 = invoke %tmp.2 %tmp.3();
+        %tmp.5 = 1;
+        %tmp.6 = lt %tmp.4 %tmp.5;
+        bf %tmp.6 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_300_5_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_300_5_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_300_27_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 301 10 ]
+        %tmp.7 = 0;
+        ret %tmp.7;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_300_27_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_300_5_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_300_5_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 304 5 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_299_70_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_299_70_stop" ]
+        %index.1 = local;
+        %tmp.8 = 0;
+        lputv %index.1 %tmp.8;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 305 5 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_299_70_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_299_70_stop" ]
+        %location.2 = local;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 306 5 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_306_5_do_while_begin:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_307_5_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 308 9 ]
+        %tmp.10 = lgetv %string;
+        %tmp.11 = getv function %tmp.10 :find;
+        %tmp.13 = lgetv %splitter;
+        %tmp.14 = invoke %tmp.10 %tmp.11(%tmp.13);
+        lputv %location.2 %tmp.14;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 309 9 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_309_9_if_stmt:
+        %tmp.16 = lgetv %location.2;
+        %tmp.17 = null;
+        %tmp.18 = ne %tmp.16 %tmp.17;
+        bf %tmp.18 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_309_9_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_309_9_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_309_31_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 310 13 ]
+        %tmp.19 = self;
+        %tmp.20 = getv function %tmp.19 :addPOI;
+        %tmp.22 = lgetv %arr;
+        %tmp.24 = lgetv %first;
+        %tmp.26 = lgetv %index.1;
+        %tmp.27 = add %tmp.24 %tmp.26;
+        %tmp.29 = lgetv %string;
+        %tmp.30 = getv function %tmp.29 :substring;
+        %tmp.31 = 0;
+        %tmp.33 = lgetv %location.2;
+        %tmp.34 = as %tmp.33 { (!Null) };
+        %tmp.35 = invoke %tmp.29 %tmp.30(%tmp.31, %tmp.34);
+        %tmp.37 = lgetv %theme;
+        invoke %tmp.19 %tmp.20(%tmp.22, %tmp.27, %tmp.35, %tmp.37);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 311 13 ]
+        %tmp.39 = lgetv %string;
+        %tmp.40 = getv function %tmp.39 :substring;
+        %tmp.42 = lgetv %location.2;
+        %tmp.43 = as %tmp.42 { (!Null) };
+        %tmp.44 = 1;
+        %tmp.45 = add %tmp.43 %tmp.44;
+        %tmp.47 = lgetv %string;
+        %tmp.48 = getv function %tmp.47 :length;
+        %tmp.49 = invoke %tmp.47 %tmp.48();
+        %tmp.50 = invoke %tmp.39 %tmp.40(%tmp.45, %tmp.49);
+        lputv %string %tmp.50;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 312 13 ]
+        %tmp.53 = lgetv %index.1;
+        %tmp.54 = add %tmp.53 1;
+        lputv %index.1 %tmp.54;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_309_31_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_309_9_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_309_9_if_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_307_5_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_306_5_do_while_test:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 315 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_315_12_begin:
+        %tmp.56 = lgetv %location.2;
+        %tmp.57 = null;
+        %tmp.58 = ne %tmp.56 %tmp.57;
+        %tmp.59 = dup %tmp.58;
+        bf %tmp.59 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_315_32_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_315_32_true:
+        %tmp.61 = lgetv %first;
+        %tmp.63 = lgetv %index.1;
+        %tmp.64 = add %tmp.61 %tmp.63;
+        %tmp.66 = lgetv %max;
+        %tmp.67 = lt %tmp.64 %tmp.66;
+        %tmp.68 = and %tmp.58 %tmp.67;
+        push %tmp.68;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_315_32_end:
+        %tmp.69 = phi [%tmp.59 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_315_12_begin] [%tmp.68 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_315_32_true] [%tmp.69 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_315_32_end];
+        bt %tmp.69 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_306_5_do_while_begin;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_306_5_do_while_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 317 5 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_5_if_stmt:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_9_begin:
+        %tmp.71 = lgetv %first;
+        %tmp.73 = lgetv %index.1;
+        %tmp.74 = add %tmp.71 %tmp.73;
+        %tmp.76 = lgetv %max;
+        %tmp.77 = lt %tmp.74 %tmp.76;
+        %tmp.78 = dup %tmp.77;
+        bf %tmp.78 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_30_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_30_true:
+        %tmp.80 = lgetv %string;
+        %tmp.81 = null;
+        %tmp.82 = ne %tmp.80 %tmp.81;
+        %tmp.83 = and %tmp.77 %tmp.82;
+        push %tmp.83;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_30_end:
+        %tmp.84 = phi [%tmp.78 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_9_begin] [%tmp.83 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_30_true] [%tmp.84 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_30_end];
+        bf %tmp.84 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_5_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_5_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_44_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 318 9 ]
+        %tmp.85 = self;
+        %tmp.86 = getv function %tmp.85 :addPOI;
+        %tmp.88 = lgetv %arr;
+        %tmp.90 = lgetv %first;
+        %tmp.92 = lgetv %index.1;
+        %tmp.93 = add %tmp.90 %tmp.92;
+        %tmp.95 = lgetv %string;
+        %tmp.96 = as %tmp.95 { (!Null) };
+        %tmp.98 = lgetv %theme;
+        invoke %tmp.85 %tmp.86(%tmp.88, %tmp.93, %tmp.96, %tmp.98);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 319 9 ]
+        %tmp.101 = lgetv %index.1;
+        %tmp.102 = add %tmp.101 1;
+        lputv %index.1 %tmp.102;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_44_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_5_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_317_5_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 322 5 ]
+        %tmp.104 = lgetv %index.1;
+        ret %tmp.104;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_299_70_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 325; ]
+    function stringToTurnsArray(string, splitter, max_size) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_325_57_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 326 5 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_326_5_if_stmt:
+        %tmp.2 = lgetv %string;
+        %tmp.3 = getv function %tmp.2 :length;
+        %tmp.4 = invoke %tmp.2 %tmp.3();
+        %tmp.5 = 1;
+        %tmp.6 = lt %tmp.4 %tmp.5;
+        bf %tmp.6 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_326_5_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_326_5_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_326_27_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 327 10 ]
+        %tmp.7 = newa 0;
+        ret %tmp.7;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_326_27_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_326_5_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_326_5_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 329 5 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_325_57_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_325_57_stop" ]
+        %array.1 = local;
+        %tmp.10 = lgetv %max_size;
+        %tmp.8 = newa %tmp.10;
+        lputv %array.1 %tmp.8;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 330 5 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_325_57_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_325_57_stop" ]
+        %index.2 = local;
+        %tmp.11 = 0;
+        lputv %index.2 %tmp.11;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 331 5 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_325_57_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_325_57_stop" ]
+        %location.3 = local;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 332 5 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_332_5_do_while_begin:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_333_5_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 334 9 ]
+        %tmp.13 = lgetv %string;
+        %tmp.14 = getv function %tmp.13 :find;
+        %tmp.16 = lgetv %splitter;
+        %tmp.17 = invoke %tmp.13 %tmp.14(%tmp.16);
+        lputv %location.3 %tmp.17;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 335 9 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_335_9_if_stmt:
+        %tmp.19 = lgetv %location.3;
+        %tmp.20 = null;
+        %tmp.21 = ne %tmp.19 %tmp.20;
+        bf %tmp.21 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_335_9_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_335_9_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_335_31_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 336 13 ]
+        %tmp.22 = lgetv %array.1;
+        %tmp.24 = lgetv %string;
+        %tmp.25 = getv function %tmp.24 :substring;
+        %tmp.26 = 0;
+        %tmp.28 = lgetv %location.3;
+        %tmp.29 = as %tmp.28 { (!Null) };
+        %tmp.30 = invoke %tmp.24 %tmp.25(%tmp.26, %tmp.29);
+        %tmp.31 = getv function %tmp.30 :toFloat;
+        %tmp.32 = invoke %tmp.30 %tmp.31();
+        %tmp.34 = lgetv %index.2;
+        aputv %tmp.22 %tmp.34 %tmp.32;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 337 13 ]
+        %tmp.36 = lgetv %string;
+        %tmp.37 = getv function %tmp.36 :substring;
+        %tmp.39 = lgetv %location.3;
+        %tmp.40 = as %tmp.39 { (!Null) };
+        %tmp.41 = 1;
+        %tmp.42 = add %tmp.40 %tmp.41;
+        %tmp.44 = lgetv %string;
+        %tmp.45 = getv function %tmp.44 :length;
+        %tmp.46 = invoke %tmp.44 %tmp.45();
+        %tmp.47 = invoke %tmp.36 %tmp.37(%tmp.42, %tmp.46);
+        lputv %string %tmp.47;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 338 13 ]
+        %tmp.50 = lgetv %index.2;
+        %tmp.51 = add %tmp.50 1;
+        lputv %index.2 %tmp.51;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_335_31_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_335_9_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_335_9_if_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_333_5_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_332_5_do_while_test:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 341 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_341_12_begin:
+        %tmp.53 = lgetv %location.3;
+        %tmp.54 = null;
+        %tmp.55 = ne %tmp.53 %tmp.54;
+        %tmp.56 = dup %tmp.55;
+        bf %tmp.56 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_341_32_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_341_32_true:
+        %tmp.58 = lgetv %index.2;
+        %tmp.60 = lgetv %max_size;
+        %tmp.61 = lt %tmp.58 %tmp.60;
+        %tmp.62 = and %tmp.55 %tmp.61;
+        push %tmp.62;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_341_32_end:
+        %tmp.63 = phi [%tmp.56 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_341_12_begin] [%tmp.62 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_341_32_true] [%tmp.63 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_341_32_end];
+        bt %tmp.63 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_332_5_do_while_begin;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_332_5_do_while_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 343 5 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_5_if_stmt:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_9_begin:
+        %tmp.65 = lgetv %index.2;
+        %tmp.67 = lgetv %max_size;
+        %tmp.68 = lt %tmp.65 %tmp.67;
+        %tmp.69 = dup %tmp.68;
+        bf %tmp.69 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_27_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_27_true:
+        %tmp.71 = lgetv %string;
+        %tmp.72 = null;
+        %tmp.73 = ne %tmp.71 %tmp.72;
+        %tmp.74 = and %tmp.68 %tmp.73;
+        push %tmp.74;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_27_end:
+        %tmp.75 = phi [%tmp.69 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_9_begin] [%tmp.74 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_27_true] [%tmp.75 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_27_end];
+        bf %tmp.75 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_5_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_5_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_41_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 344 9 ]
+        %tmp.76 = lgetv %array.1;
+        %tmp.78 = lgetv %string;
+        %tmp.79 = as %tmp.78 { (!Null) };
+        %tmp.80 = getv function %tmp.79 :toFloat;
+        %tmp.81 = invoke %tmp.79 %tmp.80();
+        %tmp.83 = lgetv %index.2;
+        aputv %tmp.76 %tmp.83 %tmp.81;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 345 9 ]
+        %tmp.86 = lgetv %index.2;
+        %tmp.87 = add %tmp.86 1;
+        lputv %index.2 %tmp.87;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_41_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_5_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_343_5_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 347 5 ]
+        %tmp.89 = lgetv %array.1;
+        %tmp.90 = getv function %tmp.89 :slice;
+        %tmp.91 = 0;
+        %tmp.93 = lgetv %index.2;
+        %tmp.94 = invoke %tmp.89 %tmp.90(%tmp.91, %tmp.93);
+        ret %tmp.94;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_325_57_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 350; ]
+    function sort(arr) {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_350_21_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 351 6 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_350_21_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_350_21_stop" ]
+        %i.1 = local;
+        %tmp.1 = 1;
+        lputv %i.1 %tmp.1;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 352 6 ]
+        while @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_6_while_test @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_6_while_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_6_while_test:
+        %tmp.3 = lgetv %i.1;
+        %tmp.5 = lgetv %arr;
+        %tmp.6 = getv function %tmp.5 :size;
+        %tmp.7 = invoke %tmp.5 %tmp.6();
+        %tmp.8 = lt %tmp.3 %tmp.7;
+        bf %tmp.8 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_6_while_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_6_while_begin:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_29_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 353 10 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_29_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_29_stop" ]
+        %j.2 = local;
+        %tmp.10 = lgetv %i.1;
+        lputv %j.2 %tmp.10;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 354 10 ]
+        while @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_10_while_test @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_10_while_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_10_while_test:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_17_begin:
+        %tmp.12 = lgetv %j.2;
+        %tmp.13 = 0;
+        %tmp.14 = gt %tmp.12 %tmp.13;
+        %tmp.15 = dup %tmp.14;
+        bf %tmp.15 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_24_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_24_true:
+        %tmp.17 = lgetv %arr;
+        %tmp.19 = lgetv %j.2;
+        %tmp.20 = 1;
+        %tmp.21 = sub %tmp.19 %tmp.20;
+        %tmp.22 = agetv %tmp.17 %tmp.21;
+        %tmp.23 = getv %tmp.22 :mile;
+        %tmp.25 = lgetv %arr;
+        %tmp.27 = lgetv %j.2;
+        %tmp.28 = agetv %tmp.25 %tmp.27;
+        %tmp.29 = getv %tmp.28 :mile;
+        %tmp.30 = gt %tmp.23 %tmp.29;
+        %tmp.31 = and %tmp.14 %tmp.30;
+        push %tmp.31;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_24_end:
+        %tmp.32 = phi [%tmp.15 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_17_begin] [%tmp.31 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_24_true] [%tmp.32 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_24_end];
+        bf %tmp.32 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_10_while_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_10_while_begin:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_52_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 355 15 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_52_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_52_stop" ]
+        %tmp.3 = local;
+        %tmp.34 = lgetv %arr;
+        %tmp.36 = lgetv %j.2;
+        %tmp.37 = 1;
+        %tmp.38 = sub %tmp.36 %tmp.37;
+        %tmp.39 = agetv %tmp.34 %tmp.38;
+        lputv %tmp.3 %tmp.39;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 356 15 ]
+        %tmp.40 = lgetv %arr;
+        %tmp.42 = lgetv %arr;
+        %tmp.44 = lgetv %j.2;
+        %tmp.45 = agetv %tmp.42 %tmp.44;
+        %tmp.47 = lgetv %j.2;
+        %tmp.48 = 1;
+        %tmp.49 = sub %tmp.47 %tmp.48;
+        aputv %tmp.40 %tmp.49 %tmp.45;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 357 15 ]
+        %tmp.50 = lgetv %arr;
+        %tmp.52 = lgetv %tmp.3;
+        %tmp.54 = lgetv %j.2;
+        aputv %tmp.50 %tmp.54 %tmp.52;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 358 15 ]
+        %tmp.56 = lgetv %j.2;
+        %tmp.57 = 1;
+        %tmp.58 = sub %tmp.56 %tmp.57;
+        lputv %j.2 %tmp.58;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_52_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_10_while_test;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_354_10_while_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 360 10 ]
+        %tmp.60 = lgetv %i.1;
+        %tmp.61 = 1;
+        %tmp.62 = add %tmp.60 %tmp.61;
+        lputv %i.1 %tmp.62;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_29_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_6_while_test;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_352_6_while_end:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_350_21_stop:
+    }
+    [ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 364; ]
+    function updateSettings() {
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 366 8 ]
+        %tmp.1 = getm $.Toybox.Application;
+        %tmp.2 = getv function %tmp.1 :getApp;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        %tmp.4 = getv function %tmp.3 :getProperty;
+        %tmp.5 = "PROP_UNIT";
+        %tmp.6 = invoke %tmp.3 %tmp.4(%tmp.5);
+        putv self :g_use_km %tmp.6;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 368 8 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_stop" ]
+        %arr.1 = local;
+        %tmp.9 = getv ? :MAX_POI;
+        %tmp.7 = newa %tmp.9;
+        lputv %arr.1 %tmp.7;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 370 8 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_stop" ]
+        %first.2 = local;
+        %tmp.10 = 0;
+        lputv %first.2 %tmp.10;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 371 8 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_stop" ]
+        %count.3 = local;
+        %tmp.11 = 0;
+        lputv %count.3 %tmp.11;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 372 8 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_stop" ]
+        %i.4 = local;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 373 8 ]
+        for @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_test @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_incr @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_init:
+        %tmp.12 = 1;
+        lputv %i.4 %tmp.12;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_test:
+        %tmp.14 = lgetv %i.4;
+        %tmp.15 = 5;
+        %tmp.16 = lte %tmp.14 %tmp.15;
+        bf %tmp.16 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_begin:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_29_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 374 12 ]
+        [ "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_29_start" "_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_29_stop" ]
+        %miles.5 = local;
+        %tmp.17 = getm $.Toybox.Application;
+        %tmp.18 = getv function %tmp.17 :getApp;
+        %tmp.19 = invoke %tmp.17 %tmp.18();
+        %tmp.20 = getv function %tmp.19 :getProperty;
+        %tmp.21 = "PROP_DIST";
+        %tmp.23 = lgetv %i.4;
+        %tmp.24 = add %tmp.21 %tmp.23;
+        %tmp.25 = invoke %tmp.19 %tmp.20(%tmp.24);
+        lputv %miles.5 %tmp.25;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 375 12 ]
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_375_12_if_stmt:
+        %tmp.27 = lgetv %miles.5;
+        %tmp.28 = null;
+        %tmp.29 = eq %tmp.27 %tmp.28;
+        bf %tmp.29 @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_375_12_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_375_12_if_true:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_375_29_start:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 376 16 ]
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_incr;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_375_29_stop:
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_375_12_if_end;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_375_12_if_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 378 12 ]
+        %tmp.30 = self;
+        %tmp.31 = getv function %tmp.30 :stringToArray;
+        %tmp.33 = lgetv %miles.5;
+        %tmp.34 = ",";
+        %tmp.36 = lgetv %arr.1;
+        %tmp.38 = lgetv %first.2;
+        %tmp.40 = getv ? :MAX_POI;
+        %tmp.42 = lgetv %i.4;
+        %tmp.43 = invoke %tmp.30 %tmp.31(%tmp.33, %tmp.34, %tmp.36, %tmp.38, %tmp.40, %tmp.42);
+        lputv %count.3 %tmp.43;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 379 12 ]
+        %tmp.45 = lgetv %first.2;
+        %tmp.47 = lgetv %count.3;
+        %tmp.48 = add %tmp.45 %tmp.47;
+        lputv %first.2 %tmp.48;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_29_stop:
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_incr:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 373 ]
+        %tmp.51 = lgetv %i.4;
+        %tmp.52 = add %tmp.51 1;
+        lputv %i.4 %tmp.52;
+        goto @_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_test;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_373_8_for_end:
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 382 8 ]
+        %tmp.54 = lgetv %arr.1;
+        %tmp.55 = getv function %tmp.54 :slice;
+        %tmp.56 = 0;
+        %tmp.58 = lgetv %first.2;
+        %tmp.59 = invoke %tmp.54 %tmp.55(%tmp.56, %tmp.58);
+        putv self :poi_arr %tmp.59;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 384 8 ]
+        %tmp.60 = self;
+        %tmp.61 = getv function %tmp.60 :sort;
+        %tmp.63 = getv ? :poi_arr;
+        invoke %tmp.60 %tmp.61(%tmp.63);
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 386 8 ]
+        %tmp.64 = self;
+        %tmp.65 = getv function %tmp.64 :stringToTurnsArray;
+        %tmp.66 = getm $.Toybox.Application;
+        %tmp.67 = getv function %tmp.66 :getApp;
+        %tmp.68 = invoke %tmp.66 %tmp.67();
+        %tmp.69 = getv function %tmp.68 :getProperty;
+        %tmp.70 = "PROP_TURNS";
+        %tmp.71 = invoke %tmp.68 %tmp.69(%tmp.70);
+        %tmp.72 = ",";
+        %tmp.73 = 100;
+        %tmp.74 = invoke %tmp.64 %tmp.65(%tmp.71, %tmp.72, %tmp.73);
+        putv self :turns_arr %tmp.74;
+_Users_bwang_eclipse_workspace_POI_source_SimpleDataFieldView_mc_364_30_stop:
+    }
+}
+[ @file = "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc"; @line = 7; ]
+<init> {
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 16 4 ]
+    %tmp.75 = newa 10;
+    %tmp.76 = getm $.Toybox.Graphics;
+    %tmp.77 = getv %tmp.76 :COLOR_WHITE;
+    %tmp.78 = dup %tmp.75;
+    %tmp.79 = aputv %tmp.78 0 %tmp.77;
+    %tmp.80 = getm $.Toybox.Graphics;
+    %tmp.81 = getv %tmp.80 :COLOR_BLACK;
+    %tmp.82 = dup %tmp.79;
+    %tmp.83 = aputv %tmp.82 1 %tmp.81;
+    %tmp.84 = getm $.Toybox.Graphics;
+    %tmp.85 = getv %tmp.84 :COLOR_WHITE;
+    %tmp.86 = dup %tmp.83;
+    %tmp.87 = aputv %tmp.86 2 %tmp.85;
+    %tmp.88 = getm $.Toybox.Graphics;
+    %tmp.89 = getv %tmp.88 :COLOR_DK_RED;
+    %tmp.90 = dup %tmp.87;
+    %tmp.91 = aputv %tmp.90 3 %tmp.89;
+    %tmp.92 = getm $.Toybox.Graphics;
+    %tmp.93 = getv %tmp.92 :COLOR_WHITE;
+    %tmp.94 = dup %tmp.91;
+    %tmp.95 = aputv %tmp.94 4 %tmp.93;
+    %tmp.96 = getm $.Toybox.Graphics;
+    %tmp.97 = getv %tmp.96 :COLOR_DK_BLUE;
+    %tmp.98 = dup %tmp.95;
+    %tmp.99 = aputv %tmp.98 5 %tmp.97;
+    %tmp.100 = getm $.Toybox.Graphics;
+    %tmp.101 = getv %tmp.100 :COLOR_DK_GREEN;
+    %tmp.102 = dup %tmp.99;
+    %tmp.103 = aputv %tmp.102 6 %tmp.101;
+    %tmp.104 = getm $.Toybox.Graphics;
+    %tmp.105 = getv %tmp.104 :COLOR_WHITE;
+    %tmp.106 = dup %tmp.103;
+    %tmp.107 = aputv %tmp.106 7 %tmp.105;
+    %tmp.108 = getm $.Toybox.Graphics;
+    %tmp.109 = getv %tmp.108 :COLOR_ORANGE;
+    %tmp.110 = dup %tmp.107;
+    %tmp.111 = aputv %tmp.110 8 %tmp.109;
+    %tmp.112 = getm $.Toybox.Graphics;
+    %tmp.113 = getv %tmp.112 :COLOR_WHITE;
+    %tmp.114 = dup %tmp.111;
+    %tmp.115 = aputv %tmp.114 9 %tmp.113;
+    putv self :colors %tmp.115;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 22 4 ]
+    %tmp.116 = getm $.Toybox.Graphics;
+    %tmp.117 = getv %tmp.116 :FONT_TINY;
+    putv self :smallfont %tmp.117;
+[ "/Users/bwang/eclipse-workspace/POI/source/SimpleDataFieldView.mc" 23 4 ]
+    %tmp.118 = getm $.Toybox.Graphics;
+    %tmp.119 = getv %tmp.118 :FONT_NUMBER_MEDIUM;
+    putv self :bigfont %tmp.119;
+}

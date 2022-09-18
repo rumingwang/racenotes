@@ -1,0 +1,50 @@
+<resources>
+    <properties>
+        <property id="PROP_UNIT" type="number">0</property>
+        <property id="PROP_DIST1" type="string"></property>
+        <property id="PROP_DIST2" type="string"></property>
+        <property id="PROP_DIST3" type="string"></property>
+        <property id="PROP_DIST4" type="string"></property>
+        <property id="PROP_DIST5" type="string"></property>
+        <property id="PROP_TURNS" type="string"></property>
+    </properties>
+
+    <strings>
+       <string id="title_unit">Display Unit</string>   
+       <string id="opt_unit_1">Mile</string>
+       <string id="opt_unit_2">Kilometer</string>
+       <string id="title_dist1">Theme: Black</string>
+       <string id="title_dist2">Theme: Red</string>
+       <string id="title_dist3">Theme: Blue</string>
+       <string id="title_dist4">Theme: Green Inverted </string>
+       <string id="title_dist5">Theme: Orange Inverted </string>
+       <string id="title_turns">Turns (+ Right, - Left) </string>
+    </strings>
+
+    <settings>
+        <setting propertyKey="@Properties.PROP_UNIT" title="@Strings.title_unit">
+            <settingConfig type="list">
+            	<listEntry value="0">@Strings.opt_unit_1</listEntry>
+            	<listEntry value="1">@Strings.opt_unit_2</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.PROP_DIST1" title="@Strings.title_dist1">
+            <settingConfig type="alphaNumeric"/>
+        </setting>
+        <setting propertyKey="@Properties.PROP_DIST2" title="@Strings.title_dist2">
+            <settingConfig type="alphaNumeric"/>
+        </setting>
+        <setting propertyKey="@Properties.PROP_DIST3" title="@Strings.title_dist3">
+            <settingConfig type="alphaNumeric"/>
+        </setting>
+        <setting propertyKey="@Properties.PROP_DIST4" title="@Strings.title_dist4">
+            <settingConfig type="alphaNumeric"/>
+        </setting>
+        <setting propertyKey="@Properties.PROP_DIST5" title="@Strings.title_dist5">
+            <settingConfig type="alphaNumeric"/>
+        </setting>
+        <setting propertyKey="@Properties.PROP_TURNS" title="@Strings.title_turns">
+            <settingConfig type="alphaNumeric"/>
+        </setting>
+    </settings>
+</resources>
